@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace GildedRose;
 
+use phpDocumentor\Reflection\Types\Boolean;
+
 final class GildedRose
 {
     /**
@@ -18,27 +20,49 @@ final class GildedRose
         $this->items = $items;
     }
 
+    public function canIncrease($itemQuality): Bool
+    {
+        return $itemQuality < $this->maxQuality ? true : false;  
+    }
+
+    public function canDecrease($itemQuality): Bool
+    {
+       return $itemQuality > $this->minQuality ? true : false;
+    }
+
+    public function decreaseQuality($item): Item
+    {   
+        $item->quality -= 1;
+        return $item;
+    }
+
+    public function increaseQuality($item): Item
+    {
+        $item->quality += 1;
+        return $item;
+    }
+    
     public function updateQuality(): void
     {
         foreach ($this->items as $item) {
             if ($item->name != 'Aged Brie' and $item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                if ($item->quality > $this->minQuality) {
+                if ($this->canDecrease($item->quality)) {
                     if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                        $item->quality = $item->quality - 1;
+                        $this->decreaseQuality($item);
                     }
                 }
             } else {
-                if ($item->quality < $this->maxQuality) {
-                    $item->quality = $item->quality + 1;
+                if ($this->canIncrease($item->quality)) {
+                    $this->increaseQuality($item);
                     if ($item->name == 'Backstage passes to a TAFKAL80ETC concert') {
                         if ($item->sell_in < 11) {
-                            if ($item->quality < $this->maxQuality) {
-                                $item->quality = $item->quality + 1;
+                            if ($this->canIncrease($item->quality)) {
+                                $this->increaseQuality($item);
                             }
                         }
                         if ($item->sell_in < 6) {
-                            if ($item->quality < $this->maxQuality) {
-                                $item->quality = $item->quality + 1;
+                            if ($this->canIncrease($item->quality)) {
+                                $this->increaseQuality($item);
                             }
                         }
                     }
@@ -52,17 +76,17 @@ final class GildedRose
             if ($item->sell_in < 0) {
                 if ($item->name != 'Aged Brie') {
                     if ($item->name != 'Backstage passes to a TAFKAL80ETC concert') {
-                        if ($item->quality > 0) {
+                        if ($this->canDecrease($item->quality)) {
                             if ($item->name != 'Sulfuras, Hand of Ragnaros') {
-                                $item->quality = $item->quality - 1;
+                                 $this->decreaseQuality($item);
                             }
                         }
                     } else {
                         $item->quality = $item->quality - $item->quality;
                     }
                 } else {
-                    if ($item->quality < $this->maxQuality) {
-                        $item->quality = $item->quality + 1;
+                    if ($this->canIncrease($item->quality)) {
+                        $this->increaseQuality($item);
                     }
                 }
             }
