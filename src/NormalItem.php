@@ -2,7 +2,7 @@
 
 namespace GildedRose;
 
-class AgedItem extends EnchantedItem
+class NormalItem extends EnchantedItem
 {
     
     public function passDay() {

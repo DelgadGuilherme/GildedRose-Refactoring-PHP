@@ -2,7 +2,7 @@
 
 namespace GildedRose;
 
-class BackstagePasses extends BackstagePassesItem
+class Sulfuras extends LegendaryItem
 {
     
     public function passDay() {

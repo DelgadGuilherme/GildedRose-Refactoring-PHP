@@ -2,7 +2,7 @@
 
 namespace GildedRose;
 
-class LegendaryItem extends EnchantedItem 
+class ConjuredItem extends EnchantedItem 
 {   
     public function passDay() {
         parent::passDay();

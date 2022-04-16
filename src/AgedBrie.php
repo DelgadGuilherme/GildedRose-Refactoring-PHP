@@ -2,7 +2,7 @@
 
 namespace GildedRose;
 
-class BackstagePasses extends BackstagePassesItem
+class AgedBrie extends AgedItem
 {
     
     public function passDay() {
